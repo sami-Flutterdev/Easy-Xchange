@@ -1,0 +1,2 @@
+D:/Company Projects/Self/Easy Xchange/android/app/.cxx/Debug/3d712f5x/x86/CMakeFiles/edit_cache.dir
+D:/Company Projects/Self/Easy Xchange/android/app/.cxx/Debug/3d712f5x/x86/CMakeFiles/rebuild_cache.dir
