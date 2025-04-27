@@ -1,5 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -26,7 +26,7 @@ class elevatedButton extends StatelessWidget {
 
   elevatedButton(
     BuildContext context, {
-    Key? key,
+    super.key,
     this.loading = false,
     var this.isStroked = false,
     this.onFocusChanged,
@@ -38,7 +38,7 @@ class elevatedButton extends StatelessWidget {
     var this.borderRadius = 30.0,
     var this.height = 55.0,
     var this.width = double.infinity,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +80,7 @@ class CustomDropdownButton extends StatelessWidget {
   final String? value;
 
   const CustomDropdownButton({
+    super.key,
     required this.hint,
     this.value,
     required this.items,
@@ -125,9 +126,19 @@ String ammoutFormatter(int number) {
 }
 
 // Function to format DateTime
-String formatDateTime(String dateTimeString) {
-  DateTime dateTime = DateTime.parse(dateTimeString);
-  return DateFormat("dd MMMM y 'at' hh:mm a").format(dateTime);
+String formatDateTime(dynamic timestamp) {
+  if (timestamp == null) return 'Unknown date';
+
+  try {
+    if (timestamp is Timestamp) {
+      return DateFormat('dd MMM yyyy, hh:mm a').format(timestamp.toDate());
+    } else if (timestamp is String) {
+      return timestamp; // Display as-is if it's already formatted
+    }
+    return 'Invalid date';
+  } catch (e) {
+    return 'Date format error';
+  }
 }
 
 // Helper function to capitalize the first letter
@@ -144,7 +155,7 @@ Widget text(String? text,
     TextStyle? googleFonts,
     var fontFamily = 'Poppins',
     var isCentered = false,
-    var maxLine = 1,
+    var maxLine = 10,
     TextOverflow? overflow,
     var latterSpacing = 0.5,
     bool textAllCaps = false,
@@ -233,9 +244,9 @@ class CustomTextFormField extends StatelessWidget {
   final TextInputType? keyboardType;
   final FocusNode? focusNode;
 
-  CustomTextFormField(
+  const CustomTextFormField(
     BuildContext context, {
-    Key? key,
+    super.key,
     this.focusNode,
     this.onFieldSubmitted,
     this.controller,
@@ -261,7 +272,7 @@ class CustomTextFormField extends StatelessWidget {
     this.maxLength,
     this.text,
     this.color = Colors.black,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

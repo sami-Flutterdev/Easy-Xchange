@@ -1,6 +1,3 @@
-import 'dart:math';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_xchange/utils/constant.dart'
     show
         spacing_control,
@@ -8,18 +5,13 @@ import 'package:easy_xchange/utils/constant.dart'
         spacing_thirty,
         spacing_twinty,
         textSizeLargeMedium;
-import 'package:easy_xchange/view/user_app/dashbaord/dashboard.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:easy_xchange/components/textfield.dart';
 import 'package:easy_xchange/utils/colors.dart';
 import 'package:easy_xchange/utils/widget.dart';
 import 'package:easy_xchange/viewModel/userViewModel.dart';
-import 'package:location/location.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
-
-import '../helper_details.dart';
 
 class PostScreen extends StatefulWidget {
   const PostScreen({super.key});

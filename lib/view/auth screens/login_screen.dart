@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:easy_xchange/utils/colors.dart';
 import 'package:easy_xchange/view/user_app/dashbaord/dashboard.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_svg/svg.dart';

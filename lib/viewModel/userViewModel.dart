@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_xchange/utils/colors.dart';
 import 'package:easy_xchange/utils/widget.dart';
+import 'package:easy_xchange/view/admin/dashbaord/main_screen_admin.dart';
+import 'package:easy_xchange/view/auth%20screens/welcome_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -46,8 +48,7 @@ class UserViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  isCheckLogin(context) async {
-    var p = Provider.of<UserViewModel>(context, listen: false);
+  isCheckLogin(BuildContext context) async {
     final SharedPreferences sp = await SharedPreferences.getInstance();
     userId = sp.getString("uid");
     isVerified = sp.getBool("isVerified") ?? false;
@@ -55,11 +56,22 @@ class UserViewModel with ChangeNotifier {
 
     if (kDebugMode) {
       print("userId: $userId");
-      print("isVerified: ${p.isVerified}");
+      print("isVerified: $isVerified");
+      print("userRole: $userRole");
     }
-    userId == null || userId!.isEmpty || isVerified != true
-        ? const LoginScreen().launch(context)
-        : const Dashboard().launch(context);
+
+    if (userId == null || userId!.isEmpty || isVerified != true) {
+      WelcomeScreen().launch(context); // Navigate to login if not logged in
+    } else {
+      // Navigate based on user role
+      if (userRole == 'user') {
+        const Dashboard().launch(context); // Navigate to user dashboard
+      } else if (userRole == 'admin') {
+        const MainScreenAdmin().launch(context); // Navigate to vendor dashboard
+      } else {
+        WelcomeScreen().launch(context); // Navigate to login if role is unknown
+      }
+    }
     notifyListeners();
   }
 

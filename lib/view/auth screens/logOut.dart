@@ -1,134 +1,174 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:easy_xchange/utils/widget.dart';
+import 'package:easy_xchange/view/auth%20screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:easy_xchange/utils/images.dart';
 import 'package:easy_xchange/utils/colors.dart';
-import 'package:easy_xchange/utils/widget.dart';
-import 'package:easy_xchange/view/auth%20screens/welcome_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:nb_utils/nb_utils.dart';
 import 'package:easy_xchange/viewModel/authViewModel.dart';
 import 'package:easy_xchange/viewModel/userViewModel.dart';
-import 'package:nb_utils/nb_utils.dart';
-import 'package:provider/provider.dart';
 
-class LogoutAccount extends StatefulWidget {
-  const LogoutAccount({super.key});
+class LogoutDialog extends StatefulWidget {
+  const LogoutDialog({super.key});
 
   @override
-  State<LogoutAccount> createState() => _LogoutAccountState();
+  State<LogoutDialog> createState() => _LogoutDialogState();
 }
 
-class _LogoutAccountState extends State<LogoutAccount> {
+class _LogoutDialogState extends State<LogoutDialog> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  // Sign out
-  Future<void> signOut() async {
-    var userViewModel = Provider.of<UserViewModel>(context, listen: false);
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (context) => CustomLoadingIndicator(),
-    );
+  bool _isLoading = false;
+
+  Future<void> _handleLogout() async {
+    setState(() => _isLoading = true);
+
     try {
-      await _auth.signOut().then((value) async {
-        final SharedPreferences prefs = await SharedPreferences.getInstance();
-        userViewModel.isVerified = false;
-        prefs.remove("uid").then((value) {
-          const WelcomeScreen().launch(context, isNewTask: true);
-        });
-      });
+      final userViewModel = Provider.of<UserViewModel>(context, listen: false);
+      final authViewModel = Provider.of<AuthViewModel>(context, listen: false);
+      final prefs = await SharedPreferences.getInstance();
+
+      if (userViewModel.isGoogleSignup == true) {
+        await AuthViewModel().signOutGoogle(context);
+      }
+
+      await _auth.signOut();
+      await prefs.remove("uid");
+      userViewModel.isVerified = false;
+
+      if (mounted) {
+        finish(context);
+        LoginScreen().launch(context, isNewTask: true);
+      }
     } catch (e) {
-      finish(context);
+      if (mounted) {
+        finish(context);
+        toast("Logout failed: ${e.toString()}");
+      }
       debugPrint(e.toString());
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      backgroundColor: AppColors.whiteColor,
-      insetPadding: const EdgeInsets.symmetric(horizontal: 20),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      child: SizedBox(
-        height: 300,
-        width: double.infinity,
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      insetPadding: const EdgeInsets.all(24),
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppColors.whiteColor,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 24,
+              offset: const Offset(0, 8),
+            ),
+          ],
+        ),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Expanded(
+            // Illustration and text
+            Padding(
+              padding: const EdgeInsets.fromLTRB(24, 32, 24, 16),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SvgPicture.asset(
                     svgLogout,
-                    color: AppColors.primaryColor,
-                    height: 50,
-                    width: 50,
-                    fit: BoxFit.cover,
+                    height: 40,
+                    width: 40,
+                    color: AppColors.redColor.withOpacity(0.9),
                   ),
-                  const SizedBox(
-                    height: 20,
+                  const SizedBox(height: 24),
+                  Text(
+                    "Ready to leave?",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.textcolorSecondary,
+                    ),
                   ),
-                  text("Logout Account",
-                      fontSize: 20.0, fontWeight: FontWeight.w500),
-                  const SizedBox(
-                    height: 4,
-                  ),
-                  text(
-                    "Do you want to logout the App?",
-                    color: AppColors.greyColor,
-                  ),
-                  const SizedBox(
-                    height: 4,
+                  const SizedBox(height: 8),
+                  Text(
+                    "You'll need to sign in again to access your account",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: AppColors.textcolorSecondary,
+                    ),
                   ),
                 ],
               ),
             ),
+
+            // Buttons
             Padding(
-              padding: const EdgeInsets.only(bottom: 20),
+              padding: const EdgeInsets.all(16),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  // Cancel button
                   Expanded(
-                    child: elevatedButton(
-                      context,
-                      onPress: () {
-                        Navigator.pop(context);
-                      },
-                      height: 45.0,
-                      borderRadius: 25.0,
-                      backgroundColor: AppColors.whiteColor,
-                      bodersideColor: AppColors.blackColor,
-                      child: text("Cancel", fontSize: 14.0),
+                    child: SizedBox(
+                      height: 45,
+                      child: TextButton(
+                        onPressed:
+                            _isLoading ? null : () => Navigator.pop(context),
+                        style: TextButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(),
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                        ),
+                        child: Text(
+                          "Cancel",
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.textcolorSecondary,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                  const SizedBox(
-                    width: 15,
-                  ),
+                  const SizedBox(width: 12),
+
+                  // Logout button
                   Expanded(
                     child: elevatedButton(
                       context,
-                      onPress: () async {
-                        var userViewModel =
-                            Provider.of<UserViewModel>(context, listen: false);
-                        var authViewModel =
-                            Provider.of<AuthViewModel>(context, listen: false);
-                        userViewModel.isGoogleSignup == true
-                            ? AuthViewModel()
-                                .signOutGoogle(context)
-                                .then((value) {
-                                authViewModel.signOut(context);
-                              })
-                            : authViewModel.signOut(context);
-                      },
                       height: 45.0,
-                      borderRadius: 25.0,
                       backgroundColor: AppColors.redColor,
                       bodersideColor: AppColors.redColor,
-                      child: text("LogOut",
-                          color: AppColors.whiteColor, fontSize: 14.0),
+                      onPress: _isLoading ? null : _handleLogout,
+                      child: _isLoading
+                          ? const SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: Colors.white,
+                              ),
+                            )
+                          : Text(
+                              "Logout",
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.whiteColor,
+                              ),
+                            ),
                     ),
                   ),
                 ],
-              ).paddingSymmetric(horizontal: 10),
+              ),
             ),
           ],
         ),

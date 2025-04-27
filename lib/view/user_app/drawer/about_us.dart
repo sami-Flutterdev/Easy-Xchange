@@ -1,6 +1,5 @@
 import 'package:easy_xchange/utils/colors.dart';
 import 'package:easy_xchange/utils/constant.dart';
-import 'package:easy_xchange/utils/images.dart';
 import 'package:easy_xchange/utils/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';

@@ -1,8 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_xchange/utils/constant.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:easy_xchange/components/textfield.dart';
 import 'package:easy_xchange/utils/colors.dart';
 import 'package:easy_xchange/utils/widget.dart';
 import 'package:easy_xchange/viewModel/userViewModel.dart';

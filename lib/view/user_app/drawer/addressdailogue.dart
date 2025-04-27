@@ -2,19 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 
 class AddressFromCoordinatesScreen extends StatefulWidget {
+  const AddressFromCoordinatesScreen({super.key});
+
   @override
-  _AddressFromCoordinatesScreenState createState() => _AddressFromCoordinatesScreenState();
+  _AddressFromCoordinatesScreenState createState() =>
+      _AddressFromCoordinatesScreenState();
 }
 
-class _AddressFromCoordinatesScreenState extends State<AddressFromCoordinatesScreen> {
+class _AddressFromCoordinatesScreenState
+    extends State<AddressFromCoordinatesScreen> {
   String? address;
 
-  Future<void> getAddressFromCoordinates(double latitude, double longitude) async {
+  Future<void> getAddressFromCoordinates(
+      double latitude, double longitude) async {
     try {
-      List<Placemark> placemarks = await placemarkFromCoordinates(latitude, longitude);
+      List<Placemark> placemarks =
+          await placemarkFromCoordinates(latitude, longitude);
       Placemark place = placemarks[0];
       setState(() {
-        address = '${place.street}, ${place.locality}, ${place.administrativeArea}, ${place.country}';
+        address =
+            '${place.street}, ${place.locality}, ${place.administrativeArea}, ${place.country}';
       });
     } catch (e) {
       print(e);
@@ -49,13 +56,10 @@ class _AddressFromCoordinatesScreenState extends State<AddressFromCoordinatesScr
       ),
       body: Center(
         child: ElevatedButton(
-          onPressed: () async {
-
-          },
+          onPressed: () async {},
           child: Text('Get Address'),
         ),
       ),
     );
   }
 }
-

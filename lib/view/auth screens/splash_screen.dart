@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:easy_xchange/utils/images.dart';
 import 'package:easy_xchange/viewModel/userViewModel.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:location/location.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
 

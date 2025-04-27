@@ -1,9 +1,12 @@
 import 'dart:io';
 
 import 'package:easy_xchange/utils/Images.dart';
+import 'package:easy_xchange/view/admin/complaint/admin_complaints_screen.dart';
+import 'package:easy_xchange/view/admin/dashbaord/admin_dashboard.dart';
+import 'package:easy_xchange/view/admin/posts/overall_post.dart';
+import 'package:easy_xchange/view/admin/users/getall_user.dart';
 import 'package:easy_xchange/view/user_app/account/account_screen.dart';
-import 'package:easy_xchange/view/user_app/dashbaord/home_screen.dart';
-import 'package:easy_xchange/view/user_app/post/my_posts.dart';
+import 'package:easy_xchange/view/user_app/drawer/drawer.dart';
 import 'package:easy_xchange/view/user_app/post/your_post.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_xchange/utils/colors.dart';
@@ -13,14 +16,14 @@ import 'package:provider/provider.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'package:easy_xchange/utils/widget.dart';
 
-class Dashboard extends StatefulWidget {
-  const Dashboard({super.key});
+class MainScreenAdmin extends StatefulWidget {
+  const MainScreenAdmin({super.key});
 
   @override
-  State<Dashboard> createState() => _DashboardState();
+  State<MainScreenAdmin> createState() => _MainScreenAdminState();
 }
 
-class _DashboardState extends State<Dashboard> {
+class _MainScreenAdminState extends State<MainScreenAdmin> {
   @override
   void initState() {
     // TODO: implement initState
@@ -36,19 +39,24 @@ class _DashboardState extends State<Dashboard> {
 
   int currentIndex = 0;
   final List<Widget> screens = [
-    const HomeScreen(),
-    const MyPosts(),
-    YourPosts(),
-    const AccountScreen(),
+    // Dashboard
+    AdminDashboard(),
+    // Users
+    GetAllUsersScreen(),
+    // Post
+    const OverallPost(),
+    //Complaint
+    const AdminComplaintsScreen(),
   ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const DrawerScreen(),
       bottomNavigationBar: SalomonBottomBar(
         currentIndex: currentIndex,
         onTap: (i) => setState(() => currentIndex = i),
         items: [
-          /// Home
+          /// Dashboard
           SalomonBottomBarItem(
             icon: SvgPicture.asset(svgHome,
                 colorFilter:
@@ -56,39 +64,11 @@ class _DashboardState extends State<Dashboard> {
                 height: 25,
                 width: 25,
                 fit: BoxFit.cover),
-            title: text("Home", color: AppColors.blackColor),
+            title: text("Dashboard", color: AppColors.blackColor),
             selectedColor: AppColors.primaryColor,
           ),
 
-          /// Exchange
-          SalomonBottomBarItem(
-            icon: SvgPicture.asset(
-              svgPost,
-              colorFilter:
-                  ColorFilter.mode(AppColors.primaryColor, BlendMode.srcIn),
-              height: 26,
-              width: 26,
-              fit: BoxFit.cover,
-            ),
-            title: text("Exchange", color: AppColors.blackColor),
-            selectedColor: AppColors.primaryColor,
-          ),
-
-          /// chat
-          SalomonBottomBarItem(
-            icon: SvgPicture.asset(
-              svgMyPost,
-              colorFilter:
-                  ColorFilter.mode(AppColors.primaryColor, BlendMode.srcIn),
-              height: 25,
-              width: 25,
-              fit: BoxFit.cover,
-            ),
-            title: text("My Posts", color: AppColors.blackColor),
-            selectedColor: AppColors.primaryColor,
-          ),
-
-          /// Profile
+          /// users
           SalomonBottomBarItem(
             icon: SvgPicture.asset(
               svgProfile,
@@ -98,7 +78,35 @@ class _DashboardState extends State<Dashboard> {
               width: 25,
               fit: BoxFit.cover,
             ),
-            title: text("profile", color: AppColors.blackColor),
+            title: text("Users", color: AppColors.blackColor),
+            selectedColor: AppColors.primaryColor,
+          ),
+
+          /// Posts
+          SalomonBottomBarItem(
+            icon: SvgPicture.asset(
+              svgMyPost,
+              colorFilter:
+                  ColorFilter.mode(AppColors.primaryColor, BlendMode.srcIn),
+              height: 25,
+              width: 25,
+              fit: BoxFit.cover,
+            ),
+            title: text("Posts", color: AppColors.blackColor),
+            selectedColor: AppColors.primaryColor,
+          ),
+
+          /// Complaints
+          SalomonBottomBarItem(
+            icon: SvgPicture.asset(
+              svgPost,
+              colorFilter:
+                  ColorFilter.mode(AppColors.primaryColor, BlendMode.srcIn),
+              height: 26,
+              width: 26,
+              fit: BoxFit.cover,
+            ),
+            title: text("Complaints", color: AppColors.blackColor),
             selectedColor: AppColors.primaryColor,
           ),
         ],

@@ -8,7 +8,7 @@ import 'package:easy_xchange/utils/colors.dart';
 import 'package:easy_xchange/utils/widget.dart';
 
 class ComplaintSubmissionScreen extends StatefulWidget {
-  ComplaintSubmissionScreen({super.key});
+  const ComplaintSubmissionScreen({super.key});
 
   @override
   State<ComplaintSubmissionScreen> createState() =>

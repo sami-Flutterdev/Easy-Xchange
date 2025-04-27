@@ -12,6 +12,8 @@ import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
 
 class YourPosts extends StatefulWidget {
+  const YourPosts({super.key});
+
   @override
   _YourPostsState createState() => _YourPostsState();
 }

@@ -5,6 +5,7 @@ import 'package:easy_xchange/view/user_app/helpFAQs/help_support.dart';
 import 'package:easy_xchange/view/user_app/privacy_policy/privacy_policy_screen.dart';
 import 'package:easy_xchange/view/user_app/termsCondition/termsConditionScreen.dart';
 import 'package:easy_xchange/view/user_app/drawer/about_us.dart';
+import 'package:easy_xchange/viewModel/userViewModel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
@@ -14,6 +15,7 @@ import 'package:easy_xchange/view/auth%20screens/logOut.dart';
 import 'package:easy_xchange/view/auth%20screens/updateProfile.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:easy_xchange/utils/widget.dart';
+import 'package:provider/provider.dart';
 
 class DrawerScreen extends StatefulWidget {
   const DrawerScreen({
@@ -42,29 +44,10 @@ class _DrawerScreenState extends State<DrawerScreen> {
     }
   }
 
-  void showAddressDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Your Address'),
-          content: address != null ? Text(address!) : Text('Address not found'),
-          actions: [
-            TextButton(
-              child: Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    var username;
+    var userViewModel = Provider.of<UserViewModel>(context, listen: false);
+    String username = '';
     var size = MediaQuery.of(context).size;
     CollectionReference users = FirebaseFirestore.instance.collection('users');
     return Drawer(
@@ -136,13 +119,6 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   children: [
                     drawerRow(
                       icon: Icons.person_outline,
-                      title: "My Adress",
-                      ontap: () {
-                        showAddressDialog(context);
-                      },
-                    ),
-                    drawerRow(
-                      icon: Icons.person_outline,
                       title: "Update Profile",
                       ontap: () {
                         UpdateProfileScreen(
@@ -179,13 +155,15 @@ class _DrawerScreenState extends State<DrawerScreen> {
                         const HelpSupportScreen().launch(context);
                       },
                     ),
-                    drawerRow(
-                      icon: Icons.report_outlined,
-                      title: "Complaint",
-                      ontap: () {
-                        ComplaintSubmissionScreen().launch(context);
-                      },
-                    ),
+                    userViewModel.userRole == 'user'
+                        ? drawerRow(
+                            icon: Icons.report_outlined,
+                            title: "Complaint",
+                            ontap: () {
+                              ComplaintSubmissionScreen().launch(context);
+                            },
+                          )
+                        : SizedBox(),
                     drawerRow(
                       icon: Icons.logout,
                       title: "Logout",
@@ -195,7 +173,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                           context: context,
                           builder: (context) {
                             // Delete Page (Dialog Box) is Called.............>>>
-                            return const LogoutAccount();
+                            return const LogoutDialog();
                           },
                         );
                       },

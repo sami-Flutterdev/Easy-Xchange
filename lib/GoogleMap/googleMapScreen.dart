@@ -7,12 +7,17 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 class GoogleMapScreen extends StatefulWidget {
   List coordinates;
   String currentLocation;
-bool isBottomNav=false;
-  GoogleMapScreen({required this.coordinates,required this.isBottomNav, required this.currentLocation, Key? key}) : super(key: key);
+  bool isBottomNav = false;
+  GoogleMapScreen(
+      {required this.coordinates,
+      required this.isBottomNav,
+      required this.currentLocation,
+      super.key});
 
   @override
   State<GoogleMapScreen> createState() => _GoogleMapScreenState();
 }
+
 class _GoogleMapScreenState extends State<GoogleMapScreen> {
   @override
   void initState() {
@@ -20,35 +25,40 @@ class _GoogleMapScreenState extends State<GoogleMapScreen> {
     // TODO: implement initState
     super.initState();
   }
-  
+
   Set<Marker> markersList = {};
   currentmarker() {
     markersList.clear(); // Clear existing markers
     markersList.add(Marker(
       markerId: const MarkerId("0"),
-      position:LatLng(widget.coordinates[0],widget.coordinates[1]),
-      infoWindow:  InfoWindow(title: widget.currentLocation),
-
+      position: LatLng(widget.coordinates[0], widget.coordinates[1]),
+      infoWindow: InfoWindow(title: widget.currentLocation),
     ));
   }
 
   @override
   Widget build(BuildContext context) {
     if (kDebugMode) {
-      print("Map Sceen coordinates: ${widget.coordinates[0]}, ${widget.coordinates[1]}");
+      print(
+          "Map Sceen coordinates: ${widget.coordinates[0]}, ${widget.coordinates[1]}");
     }
     return Scaffold(
-      appBar:widget.isBottomNav==false? AppBar(title: const Text("Map"),):null,
+      appBar: widget.isBottomNav == false
+          ? AppBar(
+              title: const Text("Map"),
+            )
+          : null,
       body: Stack(
         children: [
           // GoogleMap widget to display the map
-          ClipRRect(borderRadius: BorderRadius.circular(15),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(15),
             child: GoogleMap(
               initialCameraPosition: CameraPosition(
-                  target: LatLng(widget.coordinates[0],widget.coordinates[1]),
-                  zoom: 16,
-                  ),
-                  mapType: MapType.normal,
+                target: LatLng(widget.coordinates[0], widget.coordinates[1]),
+                zoom: 16,
+              ),
+              mapType: MapType.normal,
               markers: markersList,
               onMapCreated: (GoogleMapController controller) {},
             ),

@@ -10,6 +10,7 @@ class ComplaintModel {
   String category;
   String status;
   DateTime createdAt;
+  DateTime? resolvedAt;
   List<String>? images;
 
   ComplaintModel({
@@ -22,6 +23,7 @@ class ComplaintModel {
     required this.category,
     this.status = 'Pending',
     required this.createdAt,
+    this.resolvedAt,
     this.images,
   });
 
@@ -36,6 +38,7 @@ class ComplaintModel {
       category: map['category'],
       status: map['status'],
       createdAt: (map['createdAt'] as Timestamp).toDate(),
+      resolvedAt: map['resolvedAt']?.toDate(),
       images: List<String>.from(map['images'] ?? []),
     );
   }
@@ -51,6 +54,7 @@ class ComplaintModel {
       'category': category,
       'status': status,
       'createdAt': Timestamp.fromDate(createdAt),
+      if (resolvedAt != null) 'resolvedAt': Timestamp.fromDate(resolvedAt!),
       'images': images,
     };
   }

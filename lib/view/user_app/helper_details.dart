@@ -21,8 +21,8 @@ class _HelperDetailsState extends State<HelperDetails> {
   @override
   Widget build(BuildContext context) {
     void openWhatsApp(phoneNumber) async {
-      final Uri _url = Uri.parse('whatsapp://send?phone=$phoneNumber');
-      if (!await launchUrl(_url)) throw 'Could not launch $_url';
+      final Uri url = Uri.parse('whatsapp://send?phone=$phoneNumber');
+      if (!await launchUrl(url)) throw 'Could not launch $url';
     }
 
     void makePhoneCall(phoneNumber) async {

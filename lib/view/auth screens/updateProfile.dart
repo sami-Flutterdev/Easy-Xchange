@@ -1,11 +1,8 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_xchange/viewModel/authViewModel.dart';
 import 'package:easy_xchange/viewModel/userViewModel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:easy_xchange/components/textfield.dart';
 import 'package:easy_xchange/utils/colors.dart';
 import 'package:easy_xchange/utils/images.dart';

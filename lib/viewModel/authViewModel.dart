@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_xchange/utils/colors.dart';
 import 'package:easy_xchange/utils/widget.dart';
+import 'package:easy_xchange/view/admin/dashbaord/main_screen_admin.dart';
 import 'package:easy_xchange/view/auth%20screens/verifySignUp.dart';
 import 'package:easy_xchange/view/auth%20screens/welcome_screen.dart';
 import 'package:easy_xchange/view/user_app/dashbaord/dashboard.dart';
@@ -20,7 +21,7 @@ class AuthViewModel with ChangeNotifier {
   CollectionReference users = FirebaseFirestore.instance.collection("users");
 
   bool _passwordObsecure = true;
-  bool _isEmailVerified = false;
+  final bool _isEmailVerified = false;
   bool _isLoading = false;
 
   bool get passwordObsecure => _passwordObsecure;
@@ -131,6 +132,7 @@ class AuthViewModel with ChangeNotifier {
     notifyListeners();
 
     try {
+      // Input validation (keep your existing checks)
       if (email.isEmpty) {
         throw "Please enter the email";
       } else if (!email.contains("@") || !email.contains(".")) {
@@ -139,8 +141,25 @@ class AuthViewModel with ChangeNotifier {
         throw "Password is not to be empty";
       }
 
-      firebase_auth.UserCredential userCredential =
-          await firebase_auth.FirebaseAuth.instance.signInWithEmailAndPassword(
+      // 1. First check if user exists and is active in Firestore
+      final userQuery = await FirebaseFirestore.instance
+          .collection('users')
+          .where('email', isEqualTo: email.trim())
+          .limit(1)
+          .get();
+
+      if (userQuery.docs.isEmpty) {
+        throw "No user found with that email address.";
+      }
+
+      final userData = userQuery.docs.first.data();
+      if (userData['isActive'] == false) {
+        throw "Your account has been disabled. Please contact support.";
+      }
+
+      // 2. Proceed with Firebase authentication
+      final userCredential = await firebase_auth.FirebaseAuth.instance
+          .signInWithEmailAndPassword(
               email: email.trim(), password: password.trim());
 
       final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -158,22 +177,25 @@ class AuthViewModel with ChangeNotifier {
         return;
       }
 
-      firebase_auth.User? currentUser =
-          firebase_auth.FirebaseAuth.instance.currentUser;
+      // 3. Get updated user data after successful auth
       DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
           .collection('users')
-          .doc(currentUser!.uid)
+          .doc(userCredential.user!.uid)
           .get();
 
       if (userSnapshot.exists) {
-        Fluttertoast.showToast(
-            msg: 'Congratulations! You have successfully logged in.');
+        // Double-check isActive status (in case it changed during login)
+        if ((userSnapshot.data() as Map<String, dynamic>)['isActive'] ==
+            false) {
+          await firebase_auth.FirebaseAuth.instance.signOut(); // Force logout
+          throw "Your account has been disabled during login. Please contact support.";
+        }
+
         _isLoading = false;
         notifyListeners();
 
         // Fetch user role from Firestore
-        String userRole =
-            userSnapshot['role']; // Assuming 'role' is the field in Firestore
+        String userRole = userSnapshot['role'];
 
         // Save user role in SharedPreferences
         prefs.setString("userRole", userRole);
@@ -181,10 +203,12 @@ class AuthViewModel with ChangeNotifier {
         // Navigate based on role
         if (userRole == 'user') {
           Dashboard().launch(context);
-          debugPrint('user logged in');
-        } else if (userRole == 'vendor') {
-          // DashboardVendor().launch(context);
-          debugPrint('vendor logged in');
+          Fluttertoast.showToast(
+              msg: 'Congratulations! You have successfully logged in.');
+        } else if (userRole == 'admin') {
+          MainScreenAdmin().launch(context);
+          Fluttertoast.showToast(
+              msg: 'Congratulations! You have successfully logged in.');
         } else {
           throw "Unknown user role.";
         }
@@ -262,8 +286,8 @@ class AuthViewModel with ChangeNotifier {
       utils().toastMethod('profile updated successfully!');
       userViewModel.userRole == "user"
           ? Dashboard().launch(context, isNewTask: true)
-          : Dashboard()
-              .launch(context, isNewTask: true); // put dashbaord vendor here
+          : MainScreenAdmin()
+              .launch(context, isNewTask: true); // put dashbaord Admin here
       // getAllProducts(); // Refresh the product list
     } catch (e) {
       Navigator.pop(context); // Close the loading dialog

@@ -19,7 +19,7 @@ class AccountScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var username;
+    String username;
     var size = MediaQuery.of(context).size;
     CollectionReference users = FirebaseFirestore.instance.collection('users');
 
@@ -145,13 +145,11 @@ class AccountScreen extends StatelessWidget {
                                   subtitle: snapshot.data!['cnic'].toString(),
                                 ),
                                 ProfileDetailContainer(
-                                  isContainer: false,
-                                  leadingIcon: Icons.how_to_reg_outlined,
-                                  title: "created date",
-                                  subtitle: DateFormat('dd MMM yyyy, hh:mm a')
-                                      .format(
-                                          snapshot.data!['createdAt'].toDate()),
-                                ),
+                                    isContainer: false,
+                                    leadingIcon: Icons.how_to_reg_outlined,
+                                    title: "created date",
+                                    subtitle: formatDateTime(
+                                        snapshot.data!['createdAt'])),
                               ],
                             )
                                 .paddingSymmetric(

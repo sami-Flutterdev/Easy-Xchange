@@ -9,12 +9,10 @@ import 'package:easy_xchange/viewModel/userViewModel.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
 
-
-
 class VerifySignUp extends StatefulWidget {
   const VerifySignUp({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
   @override
   State<VerifySignUp> createState() => _VerifySignUpState();
 }
@@ -26,9 +24,8 @@ class _VerifySignUpState extends State<VerifySignUp> {
   Timer? timer;
   @override
   void initState() {
-   var provider= Provider.of<UserViewModel>(context, listen: false);
-   provider.isVerified =
-        FirebaseAuth.instance.currentUser!.emailVerified;
+    var provider = Provider.of<UserViewModel>(context, listen: false);
+    provider.isVerified = FirebaseAuth.instance.currentUser!.emailVerified;
     print(isEmailVerified);
 
     super.initState();
@@ -51,7 +48,10 @@ class _VerifySignUpState extends State<VerifySignUp> {
     Provider.of<UserViewModel>(context, listen: false).isVerified =
         FirebaseAuth.instance.currentUser!.emailVerified;
     setState(() {});
-    if (Provider.of<UserViewModel>(context, listen: false).isVerified.toString().toBool()) {
+    if (Provider.of<UserViewModel>(context, listen: false)
+        .isVerified
+        .toString()
+        .toBool()) {
       timer?.cancel();
     }
   } //////////////////////////
@@ -66,12 +66,13 @@ class _VerifySignUpState extends State<VerifySignUp> {
     return Provider.of<UserViewModel>(context, listen: false).isVerified == true
         ? const LoginScreen()
         : Scaffold(
-            backgroundColor:AppColors. whiteColor,
+            backgroundColor: AppColors.whiteColor,
             appBar: AppBar(
-                backgroundColor:AppColors. 
-                primaryColor,
-                title:  text("Email Verification",color:AppColors. whiteColor,
-                   )),
+                backgroundColor: AppColors.primaryColor,
+                title: text(
+                  "Email Verification",
+                  color: AppColors.whiteColor,
+                )),
             body: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -89,7 +90,7 @@ class _VerifySignUpState extends State<VerifySignUp> {
                       sendVerificationEmail();
                     },
                     child: text("Resend Verification",
-                            color:AppColors.  primaryColor,
+                            color: AppColors.primaryColor,
                             maxLine: 5,
                             fontWeight: FontWeight.w500,
                             fontSize: 14.0)
@@ -99,7 +100,7 @@ class _VerifySignUpState extends State<VerifySignUp> {
                 elevatedButton(
                   context,
                   width: double.infinity,
-                  child: text("GO to Login ", color:AppColors. whiteColor),
+                  child: text("GO to Login ", color: AppColors.whiteColor),
                   onPress: () {
                     const LoginScreen().launch(context);
                   },

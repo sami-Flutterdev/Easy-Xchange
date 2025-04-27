@@ -6,15 +6,14 @@ import 'package:easy_xchange/view/user_app/near_posts/e_Money_to_Cash.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 
-class GetAllPostScreen extends StatefulWidget {
-  const GetAllPostScreen({super.key});
+class MyPosts extends StatefulWidget {
+  const MyPosts({super.key});
 
   @override
-  State<GetAllPostScreen> createState() => _GetAllPostScreenState();
+  State<MyPosts> createState() => _MyPostsState();
 }
 
-class _GetAllPostScreenState extends State<GetAllPostScreen>
-    with TickerProviderStateMixin {
+class _MyPostsState extends State<MyPosts> with TickerProviderStateMixin {
   final tabbarlist = ["E-Money to Cash", "Cash to E-Money"];
   @override
   Widget build(BuildContext context) {

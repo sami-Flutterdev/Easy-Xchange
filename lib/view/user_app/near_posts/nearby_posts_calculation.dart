@@ -18,8 +18,7 @@ class NearbyPostsScreen extends StatefulWidget {
   const NearbyPostsScreen(
       {required this.isAppbar,
       this.paymentTypeFilter = '', // Empty string means no filter
-      Key? key})
-      : super(key: key);
+      super.key});
 
   @override
   _NearbyPostsScreenState createState() => _NearbyPostsScreenState();
@@ -43,8 +42,8 @@ class _NearbyPostsScreenState extends State<NearbyPostsScreen> {
   }
 
   void _getCurrentLocation() async {
-    bool _serviceEnabled;
-    PermissionStatus _permissionGranted;
+    bool serviceEnabled;
+    PermissionStatus permissionGranted;
 
     setState(() {
       _isLoading = true;
@@ -53,10 +52,10 @@ class _NearbyPostsScreenState extends State<NearbyPostsScreen> {
 
     try {
       // Check if location service is enabled
-      _serviceEnabled = await _location.serviceEnabled();
-      if (!_serviceEnabled) {
-        _serviceEnabled = await _location.requestService();
-        if (!_serviceEnabled) {
+      serviceEnabled = await _location.serviceEnabled();
+      if (!serviceEnabled) {
+        serviceEnabled = await _location.requestService();
+        if (!serviceEnabled) {
           setState(() {
             _isLoading = false;
             _error = 'Location services are disabled.';
@@ -66,10 +65,10 @@ class _NearbyPostsScreenState extends State<NearbyPostsScreen> {
       }
 
       // Check location permission
-      _permissionGranted = await _location.hasPermission();
-      if (_permissionGranted == PermissionStatus.denied) {
-        _permissionGranted = await _location.requestPermission();
-        if (_permissionGranted != PermissionStatus.granted) {
+      permissionGranted = await _location.hasPermission();
+      if (permissionGranted == PermissionStatus.denied) {
+        permissionGranted = await _location.requestPermission();
+        if (permissionGranted != PermissionStatus.granted) {
           setState(() {
             _isLoading = false;
             _error = 'Location permission denied.';

@@ -15,7 +15,7 @@ class Cash_to_E_Money extends StatefulWidget {
 
 class _Cash_to_E_MoneyState extends State<Cash_to_E_Money> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  Location _location = Location();
+  final Location _location = Location();
   bool _isLoading = true;
   List<Map<String, dynamic>> _posts = [];
   String _error = '';
@@ -27,9 +27,9 @@ class _Cash_to_E_MoneyState extends State<Cash_to_E_Money> {
   }
 
   void _getCurrentLocation() async {
-    bool _serviceEnabled;
-    PermissionStatus _permissionGranted;
-    LocationData _locationData;
+    bool serviceEnabled;
+    PermissionStatus permissionGranted;
+    LocationData locationData;
 
     setState(() {
       _isLoading = true;
@@ -37,10 +37,10 @@ class _Cash_to_E_MoneyState extends State<Cash_to_E_Money> {
     });
 
     try {
-      _serviceEnabled = await _location.serviceEnabled();
-      if (!_serviceEnabled) {
-        _serviceEnabled = await _location.requestService();
-        if (!_serviceEnabled) {
+      serviceEnabled = await _location.serviceEnabled();
+      if (!serviceEnabled) {
+        serviceEnabled = await _location.requestService();
+        if (!serviceEnabled) {
           setState(() {
             _isLoading = false;
             _error = 'Location services are disabled.';
@@ -49,10 +49,10 @@ class _Cash_to_E_MoneyState extends State<Cash_to_E_Money> {
         }
       }
 
-      _permissionGranted = await _location.hasPermission();
-      if (_permissionGranted == PermissionStatus.denied) {
-        _permissionGranted = await _location.requestPermission();
-        if (_permissionGranted != PermissionStatus.granted) {
+      permissionGranted = await _location.hasPermission();
+      if (permissionGranted == PermissionStatus.denied) {
+        permissionGranted = await _location.requestPermission();
+        if (permissionGranted != PermissionStatus.granted) {
           setState(() {
             _isLoading = false;
             _error = 'Location permission denied.';
@@ -61,8 +61,8 @@ class _Cash_to_E_MoneyState extends State<Cash_to_E_Money> {
         }
       }
 
-      _locationData = await _location.getLocation();
-      _queryPosts(_locationData.latitude!, _locationData.longitude!);
+      locationData = await _location.getLocation();
+      _queryPosts(locationData.latitude!, locationData.longitude!);
     } catch (e) {
       setState(() {
         _isLoading = false;

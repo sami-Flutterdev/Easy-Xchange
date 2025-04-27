@@ -11,6 +11,8 @@ import '../../utils/Widget.dart';
 class ForgotPassword extends StatefulWidget {
   static String tag = '/GroceryForgotPassword';
 
+  const ForgotPassword({super.key});
+
   @override
   _ForgotPasswordState createState() => _ForgotPasswordState();
 }
@@ -37,19 +39,20 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           Navigator.pop(context);
                         },
                         icon: const Icon(Icons.arrow_back)),
-                    text(ForgotPassword_text,
-                            fontSize: textSizeLarge,)
-                        .paddingOnly(
-                            top: spacing_standard_new,
-                            right: spacing_standard_new),
+                    text(
+                      ForgotPassword_text,
+                      fontSize: textSizeLarge,
+                    ).paddingOnly(
+                        top: spacing_standard_new, right: spacing_standard_new),
                     text(
                       ForgotPassword_subtitle,
                       maxLine: 5,
-                     color:AppColors. greyColor,
+                      color: AppColors.greyColor,
                       fontSize: textSizeMedium,
                     ).paddingTop(spacing_twinty),
                     const SizedBox(height: spacing_standard_new),
-                    CustomTextFormField(context,
+                    CustomTextFormField(
+                      context,
                       // keyboardType: TextInputType.emailAddress,
                       controller: ForgotemailController,
                       obscureText: false,
@@ -70,36 +73,38 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       loading: islooding,
                       onPress: () {
                         if (ForgotemailController.text.isEmpty) {
-                          utils().toastMethod("Please enter email",backgroundColor:AppColors.redColor);
-                        }else{
-                           setState(() {
-                          islooding = true;
-                        });
-                        auth
-                            .sendPasswordResetEmail(
-                                email: ForgotemailController.text
-                                    .toString()
-                                    .trim())
-                            .then((value) {
+                          utils().toastMethod("Please enter email",
+                              backgroundColor: AppColors.redColor);
+                        } else {
                           setState(() {
-                            islooding = false;
+                            islooding = true;
                           });
-                       const LoginScreen().launch(context);
-                          utils().toastMethod(
-                              'We Have Sent Email Verification Code to your Email please check and Change your Password');
-                        }).onError((error, stackTrace) {
-                          setState(() {
-                            islooding = false;
+                          auth
+                              .sendPasswordResetEmail(
+                                  email: ForgotemailController.text
+                                      .toString()
+                                      .trim())
+                              .then((value) {
+                            setState(() {
+                              islooding = false;
+                            });
+                            const LoginScreen().launch(context);
+                            utils().toastMethod(
+                                'We Have Sent Email Verification Code to your Email please check and Change your Password');
+                          }).onError((error, stackTrace) {
+                            setState(() {
+                              islooding = false;
+                            });
+                            utils().toastMethod(error.toString(),
+                                backgroundColor: AppColors.redColor);
                           });
-                          utils().toastMethod(error.toString(),backgroundColor:AppColors.redColor);
-                        });
-
                         }
-                       
                       },
                       width: double.infinity,
-                      child: text(ForgotPassword_SendCode,
-                          color:AppColors. whiteColor,),
+                      child: text(
+                        ForgotPassword_SendCode,
+                        color: AppColors.whiteColor,
+                      ),
                     ).paddingTop(spacing_xlarge),
                   ],
                 ).paddingSymmetric(horizontal: spacing_twinty),
@@ -117,7 +122,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             child: RichText(
                 text: const TextSpan(
                     style: TextStyle(
-                        color:AppColors. blackColor,
+                        color: AppColors.blackColor,
                         fontSize: textSizeMedium,
                         fontWeight: FontWeight.w500,
                         fontFamily: 'Poppins'),
@@ -125,8 +130,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     children: [
                   TextSpan(
                       text: ForgotPassword_Login,
-                      style:
-                          TextStyle(color:AppColors. primaryColor, fontFamily: 'Poppins'))
+                      style: TextStyle(
+                          color: AppColors.primaryColor, fontFamily: 'Poppins'))
                 ])).center().paddingBottom(spacing_twinty),
           )
         ],
