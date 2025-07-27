@@ -1,5 +1,5 @@
 // complaint_provider.dart
-import 'package:easy_xchange/viewModel/model/complaint_model.dart';
+import 'package:easy_xchange/view_model/model/complaint_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

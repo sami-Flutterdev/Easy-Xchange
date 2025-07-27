@@ -10,7 +10,7 @@ import 'package:easy_xchange/view/user_app/drawer/drawer.dart';
 import 'package:easy_xchange/view/user_app/post/your_post.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_xchange/utils/colors.dart';
-import 'package:easy_xchange/viewModel/userViewModel.dart';
+import 'package:easy_xchange/view_model/userViewModel.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';

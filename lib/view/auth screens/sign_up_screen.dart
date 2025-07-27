@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:easy_xchange/utils/constant.dart';
-import 'package:easy_xchange/viewModel/authViewModel.dart';
+import 'package:easy_xchange/view_model/authViewModel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

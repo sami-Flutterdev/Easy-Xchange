@@ -7,8 +7,8 @@ import 'package:easy_xchange/utils/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:easy_xchange/viewModel/authViewModel.dart';
-import 'package:easy_xchange/viewModel/userViewModel.dart';
+import 'package:easy_xchange/view_model/authViewModel.dart';
+import 'package:easy_xchange/view_model/userViewModel.dart';
 
 class LogoutDialog extends StatefulWidget {
   const LogoutDialog({super.key});

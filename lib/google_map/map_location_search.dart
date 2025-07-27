@@ -3,10 +3,10 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:easy_xchange/GoogleMap/mapSearchScreen.dart';
+import 'package:easy_xchange/google_map/map_search_screen.dart';
 import 'package:easy_xchange/utils/colors.dart';
 import 'package:easy_xchange/utils/widget.dart';
-import 'package:easy_xchange/viewModel/userViewModel.dart';
+import 'package:easy_xchange/view_model/userViewModel.dart';
 
 import 'package:nb_utils/nb_utils.dart';
 

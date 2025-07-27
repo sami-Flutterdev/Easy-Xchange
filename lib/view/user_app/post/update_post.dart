@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_xchange/utils/colors.dart';
 import 'package:easy_xchange/utils/widget.dart';
-import 'package:easy_xchange/viewModel/userViewModel.dart';
+import 'package:easy_xchange/view_model/userViewModel.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
 

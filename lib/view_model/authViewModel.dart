@@ -7,7 +7,7 @@ import 'package:easy_xchange/view/admin/dashbaord/main_screen_admin.dart';
 import 'package:easy_xchange/view/auth%20screens/verifySignUp.dart';
 import 'package:easy_xchange/view/auth%20screens/welcome_screen.dart';
 import 'package:easy_xchange/view/user_app/dashbaord/dashboard.dart';
-import 'package:easy_xchange/viewModel/userViewModel.dart';
+import 'package:easy_xchange/view_model/userViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:nb_utils/nb_utils.dart';

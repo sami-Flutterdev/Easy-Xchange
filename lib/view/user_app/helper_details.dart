@@ -1,6 +1,6 @@
 import 'package:easy_xchange/utils/constant.dart';
 import 'package:flutter/material.dart';
-import 'package:easy_xchange/GoogleMap/googleMapScreen.dart';
+import 'package:easy_xchange/google_map/google_map_screen.dart';
 import 'package:easy_xchange/utils/images.dart';
 import 'package:easy_xchange/utils/colors.dart';
 import 'package:nb_utils/nb_utils.dart';

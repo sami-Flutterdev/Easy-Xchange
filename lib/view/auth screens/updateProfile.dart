@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:easy_xchange/viewModel/authViewModel.dart';
-import 'package:easy_xchange/viewModel/userViewModel.dart';
+import 'package:easy_xchange/view_model/authViewModel.dart';
+import 'package:easy_xchange/view_model/userViewModel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_xchange/components/textfield.dart';

@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_xchange/utils/constant.dart';
 import 'package:easy_xchange/view/auth%20screens/DeleteAccount.dart';
 import 'package:easy_xchange/view/user_app/drawer/complaint_submission.dart';
-import 'package:easy_xchange/viewModel/userViewModel.dart';
+import 'package:easy_xchange/view_model/userViewModel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_xchange/utils/images.dart';

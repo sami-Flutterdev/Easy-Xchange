@@ -6,7 +6,7 @@ import 'package:easy_xchange/view/user_app/post/post_screen.dart';
 import 'package:easy_xchange/view/user_app/post/update_post.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_xchange/utils/widget.dart';
-import 'package:easy_xchange/viewModel/userViewModel.dart';
+import 'package:easy_xchange/view_model/userViewModel.dart';
 import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';

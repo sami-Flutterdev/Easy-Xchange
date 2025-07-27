@@ -1,5 +1,5 @@
 import 'package:easy_xchange/utils/constant.dart';
-import 'package:easy_xchange/viewModel/complaint_controller.dart';
+import 'package:easy_xchange/view_model/complaint_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';

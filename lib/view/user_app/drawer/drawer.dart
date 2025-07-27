@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_xchange/utils/constant.dart';
 import 'package:easy_xchange/view/user_app/drawer/complaint_submission.dart';
-import 'package:easy_xchange/view/user_app/helpFAQs/help_support.dart';
+import 'package:easy_xchange/view/user_app/helpfaqs/help_support.dart';
 import 'package:easy_xchange/view/user_app/privacy_policy/privacy_policy_screen.dart';
 import 'package:easy_xchange/view/user_app/termsCondition/termsConditionScreen.dart';
 import 'package:easy_xchange/view/user_app/drawer/about_us.dart';
-import 'package:easy_xchange/viewModel/userViewModel.dart';
+import 'package:easy_xchange/view_model/userViewModel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';

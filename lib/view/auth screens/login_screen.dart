@@ -10,8 +10,8 @@ import 'package:easy_xchange/utils/constant.dart';
 import 'package:easy_xchange/utils/widget.dart';
 import 'package:easy_xchange/view/auth%20screens/forgotPassword.dart';
 import 'package:easy_xchange/view/auth%20screens/sign_up_screen.dart';
-import 'package:easy_xchange/viewModel/authViewModel.dart';
-import 'package:easy_xchange/viewModel/userViewModel.dart';
+import 'package:easy_xchange/view_model/authViewModel.dart';
+import 'package:easy_xchange/view_model/userViewModel.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
 
