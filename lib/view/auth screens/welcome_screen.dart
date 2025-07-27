@@ -18,7 +18,6 @@ class WelcomeScreen extends StatefulWidget {
 class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
-    var orientation = MediaQuery.of(context).orientation;
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -28,22 +27,16 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Image.asset(
-                  imageWelcome,
-                  height: orientation == Orientation.portrait
-                      ? MediaQuery.sizeOf(context).height * .3
-                      : MediaQuery.sizeOf(context).height * .4,
-                  width: orientation == Orientation.portrait
-                      ? MediaQuery.sizeOf(context).width * 1
-                      : MediaQuery.sizeOf(context).width * .8,
-                ).paddingSymmetric(vertical: spacing_xxLarge),
-                text("Welcome",
-                        fontWeight: FontWeight.w500, fontSize: spacing_twinty)
-                    .paddingBottom(spacing_middle),
-                text("Have a better sharing experience",
+                Image.asset(imageWelcome,
+                        height: MediaQuery.sizeOf(context).height * .36)
+                    .paddingSymmetric(vertical: spacing_xxLarge),
+                text("Welcome to EasyXchange",
+                    fontWeight: FontWeight.w700, fontSize: 22.0),
+                text("Easily exchange cash & e-money with trusted users — secure, hassle-free.",
                         fontWeight: FontWeight.w400,
                         color: AppColors.greyColor,
-                        fontSize: spacing_middle)
+                        isCentered: true,
+                        fontSize: 12.0)
                     .paddingBottom(spacing_twinty),
               ],
             ),
@@ -53,28 +46,29 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               right: 0,
               child: Column(
                 children: [
-                  BuildButton(
-                          onPressed: () {
-                            const SignUpScreen().launch(context);
-                          },
-                          text: "Create an Account")
-                      .paddingBottom(spacing_twinty),
-                  GestureDetector(
-                    onTap: () {
-                      const LoginScreen().launch(context);
+                  elevatedButton(
+                    context,
+                    onPress: () async {
+                      const SignUpScreen().launch(context);
                     },
-                    child: Container(
-                      height: spacing_xxLarge,
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                              color: AppColors.primaryColor, width: 2.0),
-                          borderRadius: BorderRadius.circular(spacing_middle),
-                          color: AppColors.whiteColor),
-                      child: Center(
-                          child: text("Log In",
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.primaryColor,
-                              fontSize: spacing_middle)),
+                    width: double.infinity,
+                    child: text(
+                      'Create an Account',
+                      color: AppColors.whiteColor,
+                    ),
+                  ).paddingBottom(spacing_twinty),
+                  SizedBox(
+                    height: 50,
+                    width: double.infinity,
+                    child: OutlinedButton(
+                      onPressed: () async {
+                        const LoginScreen().launch(context);
+                      },
+                      child: text(
+                        "Log In",
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.primaryColor,
+                      ),
                     ),
                   )
                 ],

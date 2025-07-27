@@ -77,6 +77,6 @@ class textField extends StatelessWidget {
               focusedBorder: OutlineInputBorder(
                   borderSide: const BorderSide(color: AppColors.greyColor),
                   borderRadius: BorderRadius.circular(8)),
-            ))).paddingOnly(top: spacing_middle, bottom: spacing_twinty);
+            ))).paddingOnly(top: spacing_middle);
   }
 }

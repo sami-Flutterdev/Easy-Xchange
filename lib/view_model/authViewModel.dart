@@ -64,8 +64,8 @@ class AuthViewModel with ChangeNotifier {
             'id': user.uid,
             'username': user.displayName,
             'email': user.email,
-            'gender': 'Male',
             'userImage': user.photoURL,
+            'cnic': "",
             'role': "user",
             'createdAt': FieldValue.serverTimestamp(),
           });
@@ -240,6 +240,7 @@ class AuthViewModel with ChangeNotifier {
   Future<void> updateProfile({
     required String id,
     String? name,
+    String? cnic,
     required BuildContext context,
   }) async {
     try {
@@ -256,41 +257,58 @@ class AuthViewModel with ChangeNotifier {
         },
       );
 
-      // If a new image is provided, upload it to Supabase Storage
       String? imageUrl;
       var userViewModel = Provider.of<UserViewModel>(context, listen: false);
-      if (userViewModel.selectedImage != null) {
-        final file = userViewModel.selectedImage;
-        final fileName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
-        await supabase.Supabase.instance.client.storage
-            .from('profile-pictures')
-            .upload(fileName, file!);
 
-        // Get the new image URL
-        imageUrl = supabase.Supabase.instance.client.storage
+      // Image upload if selectedImage is not null
+      if (userViewModel.selectedImage != null) {
+        final file = userViewModel.selectedImage!;
+        final fileName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
+
+        // Upload image to Supabase Storage
+        final response = await supabase.Supabase.instance.client.storage
             .from('profile-pictures')
-            .getPublicUrl(fileName);
+            .upload(fileName, file);
+
+        throw Exception('Image upload failed: ${response}');
       }
 
-      // Prepare the update data
+      // Prepare the update data map, only include non-null and non-empty fields
       Map<String, dynamic> updateData = {};
-      if (name != null) updateData['username'] = name;
-      if (imageUrl != null) updateData['userImage'] = imageUrl;
-      // Update the product in Firestore
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(id)
-          .update(updateData);
 
-      Navigator.pop(context); // Close the loading dialog
-      utils().toastMethod('profile updated successfully!');
+      if (name != null && name.trim().isNotEmpty) {
+        updateData['username'] = name.trim();
+      }
+      if (cnic != null && cnic.trim().isNotEmpty) {
+        updateData['cnic'] = cnic.trim();
+      }
+      if (imageUrl != null && imageUrl.isNotEmpty) {
+        updateData['userImage'] = imageUrl;
+      }
+
+      if (updateData.isNotEmpty) {
+        // Update Firestore user document with only updated fields
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(id)
+            .update(updateData);
+      } else {
+        // No data to update
+        Navigator.pop(context);
+        utils().toastMethod('No changes detected to update.');
+        return;
+      }
+
+      Navigator.pop(context); // Close loading dialog
+
+      utils().toastMethod('Profile updated successfully!');
+
+      // Redirect based on user role
       userViewModel.userRole == "user"
           ? Dashboard().launch(context, isNewTask: true)
-          : MainScreenAdmin()
-              .launch(context, isNewTask: true); // put dashbaord Admin here
-      // getAllProducts(); // Refresh the product list
+          : MainScreenAdmin().launch(context, isNewTask: true);
     } catch (e) {
-      Navigator.pop(context); // Close the loading dialog
+      Navigator.pop(context); // Close loading dialog
       print('Error updating Profile: $e');
       utils().toastMethod('Error updating profile: ${e.toString()}');
     }

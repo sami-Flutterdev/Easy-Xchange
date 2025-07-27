@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:easy_xchange/utils/Images.dart';
+import 'package:easy_xchange/view/user_app/account/account_deleting_listener.dart';
 import 'package:easy_xchange/view/user_app/account/account_screen.dart';
 import 'package:easy_xchange/view/user_app/dashbaord/home_screen.dart';
 import 'package:easy_xchange/view/user_app/post/my_posts.dart';
@@ -136,7 +137,7 @@ class _DashboardState extends State<Dashboard> {
           return false;
         },
         child: PageView(
-          children: [screens[currentIndex]],
+          children: [AccountListener(child: screens[currentIndex])],
         ),
       ),
     );
